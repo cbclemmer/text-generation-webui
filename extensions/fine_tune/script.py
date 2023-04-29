@@ -1,7 +1,15 @@
+import gradio as gr
 import modules.shared as shared
 from modules.extensions import apply_extensions
 from modules.text_generation import (encode,
                                      get_max_prompt_length)
+
+conversation = ""
+
+def ui():
+    custom_string = gr.Textbox(value=conversation, placeholder="Conversation", label="Edit Conversation", info='You can edit your conversation here')
+    shared.history['internal']
+
 
 # Replace multiple string pairs in a string
 def replace_all(text, dic):
@@ -29,9 +37,9 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
     # Building the turn templates
     if 'turn_template' not in state or state['turn_template'] == '':
         if is_instruct:
-            template = '<|user|>\n TEST<|user-message|>\n<|bot|>\n<|bot-message|>\n'
+            template = '<|user|>\n <|user-message|>\n<|bot|>\n<|bot-message|>\n'
         else:
-            template = '<|user|>: TEST<|user-message|>\n<|bot|>: <|bot-message|>\n'
+            template = '<|user|>: <|user-message|>\n<|bot|>: <|bot-message|>\n'
     else:
         template = state['turn_template'].replace(r'\n', '\n')
 
@@ -74,7 +82,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
         rows.pop(1)
 
     prompt = ''.join(rows)
-    print(prompt)
+    conversation = prompt
     if also_return_rows:
         return prompt, rows
     else:

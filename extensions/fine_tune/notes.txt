@@ -1,0 +1,5 @@
+Ability to edit conversation tree
+Can save conversation to file
+Can send conversation to be trained
+Keeps track of which conversations were already trained and what date and time
+Can take a statement and generate prompts and completions resulting in a fine tune file
