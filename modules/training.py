@@ -293,15 +293,24 @@ def do_train(lora_name: str, always_override: bool, save_steps: int, micro_batch
                         if val is not None:
                             data = data.replace(f'%{key}%', val)
                     return data
-            raise RuntimeError(f'Data-point "{data_point}" has no keyset match within format "{list(format_data.keys())}"')
+            return None
+            #raise RuntimeError(f'Data-point "{data_point}" has no keyset match within format "{list(format_data.keys())}"')
 
         def generate_and_tokenize_prompt(data_point):
             prompt = generate_prompt(data_point)
+            if prompt == None:
+                return None
             return tokenize(prompt)
 
         print("Loading JSON datasets...")
         data = load_dataset("json", data_files=clean_path('training/datasets', f'{dataset}.json'))
-        train_data = data['train'].map(generate_and_tokenize_prompt)
+        train_data = []
+        for d in data['train']:
+            prompt = generate_and_tokenize_prompt(d)
+            if d == None:
+                continue
+            train_data.append(prompt)
+        #train_data = data['train'].map(generate_and_tokenize_prompt)
 
         if eval_dataset == 'None':
             eval_data = None
