@@ -11,6 +11,7 @@ def replace_all(text, dic):
     return text
 
 def custom_generate_chat_prompt(user_input, state, **kwargs):
+    print("CUSTOM CHAT")
     impersonate = kwargs['impersonate'] if 'impersonate' in kwargs else False
     _continue = kwargs['_continue'] if '_continue' in kwargs else False
     also_return_rows = kwargs['also_return_rows'] if 'also_return_rows' in kwargs else False
