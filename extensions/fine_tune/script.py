@@ -74,6 +74,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
         rows.pop(1)
 
     prompt = ''.join(rows)
+    print(prompt)
     if also_return_rows:
         return prompt, rows
     else:
